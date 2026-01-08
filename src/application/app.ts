@@ -1,15 +1,23 @@
-
 import express from "express";
+import cors from "cors"; 
 import { publicRouter } from "../routes/public-router";
-import { apiRouter } from "../routes/api"
-import cors from 'cors';
+import { apiRouter } from "../routes/api";
 import { errorMiddleware } from "../middlware/error-middleware";
 
-const app = express()
-app.use(express.json())
-app.use(cors())
-app.use(publicRouter)
-app.use(apiRouter)
-app.use(errorMiddleware)
+const app = express();
 
-export default app
+app.use(cors({
+    origin: "*", 
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+    credentials: true 
+}));
+
+app.use(express.json());
+
+app.use(publicRouter);
+app.use(apiRouter);
+
+app.use(errorMiddleware);
+
+export default app;

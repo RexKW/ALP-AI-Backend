@@ -4,9 +4,6 @@ import { logger } from "../application/logging";
 import axios from "axios";
 import { GetMealRequest } from "../model/menu-model";
 
-
-
-
 export class RecipeService {
     static async getAllRecipes(uid: number): Promise<IngredientResponse[]> {
         const ingredients = await prismaClient.ingredients.findMany({

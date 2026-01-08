@@ -3,10 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "postgresql" 
   url      = env("DATABASE_URL")
 }
-
 
 model User {
   id       Int     @id @default(autoincrement())
@@ -15,28 +14,27 @@ model User {
   password String  @db.VarChar(100)
   token    String? @db.VarChar(100)
 
-  Ingredients Ingredients[]
+  // Mengubah nama field relasi menjadi lowercase (best practice)
+  ingredients Ingredients[]
 }
 
 model Ingredients {
-  id     Int    @id @default(autoincrement())
-  userId Int
-  name   String @db.VarChar(100)
+  id       Int    @id @default(autoincrement())
+  userId   Int
+  name     String @db.VarChar(100)
   quantity Int
-  unit   String @db.VarChar(50)
-
-
+  unit     String @db.VarChar(50)
 
   @@unique([name, unit, userId])
-  MenuIngredients MenuIngredients[]
-  User           User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  menuIngredients MenuIngredients[]
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Menu {
   id   Int    @id @default(autoincrement())
   name String @db.VarChar(100)
 
-  MenuIngredients MenuIngredients[]
+  menuIngredients MenuIngredients[]
 }
 
 model MenuIngredients {

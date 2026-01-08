@@ -1,7 +1,11 @@
-import app from "./application/app"
-import { logger } from "./application/logging"
+import dotenv from "dotenv";
+dotenv.config();
 
-// Change localhost to 0.0.0.0 to allow access from any network
-app.listen(3000, '0.0.0.0', () => {
-    logger.info("Listening on http://0.0.0.0:3000")
-})
+import app from "./application/app";
+import { logger } from "./application/logging";
+
+const PORT = 3000;
+
+app.listen(PORT, '0.0.0.0', () => {
+    logger.info(`Listening on http://0.0.0.0:${PORT}`);
+});
