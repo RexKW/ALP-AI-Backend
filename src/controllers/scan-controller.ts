@@ -14,13 +14,17 @@ export class ScanController {
             // Minta gemini deteksi iki makanan apa
             const detectedIngredients = await AIService.detectIngredients(req.file.path);
 
+            const ingredientNames = (detectedIngredients as any[]).map(item => item.name);
+
             // Langsung nyari resep pakai service sg ws kita punyak
             const recipeResult = await RecipeService.getRecipes({ 
-                ingredients: detectedIngredients 
+                ingredients: ingredientNames 
             });
 
             // apus file smntara syek biar server e ga penuh
-            fs.unlinkSync(req.file.path);
+            if (fs.existsSync(req.file.path)) {
+                fs.unlinkSync(req.file.path);
+            }
 
             res.status(200).json({
                 data: {

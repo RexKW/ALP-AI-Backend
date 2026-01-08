@@ -26,12 +26,15 @@ class ScanController {
                 }
                 // Minta gemini deteksi iki makanan apa
                 const detectedIngredients = yield ai_service_1.AIService.detectIngredients(req.file.path);
+                const ingredientNames = detectedIngredients.map(item => item.name);
                 // Langsung nyari resep pakai service sg ws kita punyak
                 const recipeResult = yield recipe_service_1.RecipeService.getRecipes({
-                    ingredients: detectedIngredients
+                    ingredients: ingredientNames
                 });
                 // apus file smntara syek biar server e ga penuh
-                fs_1.default.unlinkSync(req.file.path);
+                if (fs_1.default.existsSync(req.file.path)) {
+                    fs_1.default.unlinkSync(req.file.path);
+                }
                 res.status(200).json({
                     data: {
                         detected_ingredients: detectedIngredients,

@@ -14,10 +14,27 @@ export class AIService {
 
         const prompt = `
             Analyze this image of food ingredients. 
-            Identify the raw ingredients visible (e.g. chicken, egg, onion).
-            Return ONLY a raw JSON array of strings in English. 
-            Do not include markdown formatting like \`\`\`json. 
-            Example output: ["chicken", "tomato", "garlic"]
+            Identify the raw ingredients visible.
+            
+            Return ONLY a raw JSON array of objects. 
+            Each object must strictly follow this structure:
+            {
+                "name": string (e.g. "chicken", "egg"),
+                "quantity": number (estimate the amount, default to 1),
+                "unit": string (MUST be one of: "pcs", "kg", "grams", "lt", "pack", "other")
+            }
+
+            Rules:
+            1. If the unit is unclear, use "pcs".
+            2. Do not use markdown formatting like \`\`\`json.
+            3. Do not include any conversational text.
+            
+            Example output: 
+            [
+                {"name": "chicken breast", "quantity": 1, "unit": "kg"},
+                {"name": "garlic", "quantity": 3, "unit": "pcs"},
+                {"name": "milk", "quantity": 1, "unit": "lt"}
+            ]
         `;
 
         const imagePart = {
