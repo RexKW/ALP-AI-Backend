@@ -2,7 +2,8 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import fs from "fs";
 import { logger } from "../application/logging";
 
-const genAI = new GoogleGenerativeAI("AIzaSyBMS3yjFOSgQWGDeUbyyYHm89s92IFlIt0");
+// const genAI = new GoogleGenerativeAI("AIzaSyBMS3yjFOSgQWGDeUbyyYHm89s92IFlIt0");
+const genAI = new GoogleGenerativeAI(process.env.API_KEY || "");
 
 export class AIService {
     static async detectIngredients(imagePath: string): Promise<string[]> {
